@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <link rel="stylesheet" type="text/css" href="css/select-vue-component.css">
+    <script type="text/javascript" src="js/lib/vue.min.js"></script>
+    <script type="text/javascript" src="js/select-vue-component.js"></script>
+</head>
+<body class="myApp">
+    <!-- 逻辑 -->
+    <div class="wrapper">
+        <h3>单选</h3>
+        <single-select v-bind:optionsdata="single.originOptions" v-bind:selecteddata="single.selected" v-on:selected="singleCallback"></single-select>
+
+        <h3>多选</h3>
+        <multiple-select v-bind:optionsdata="multiple.originOptions" v-bind:selecteddata="multiple.selectedList" v-on:selected="multipleCallback"></multiple-select>
+
+        <h3>自定义输入多个</h3>
+        <custom-multiple-input v-bind:selecteddata="customMultiple.selectedList" v-on:inputed="customMultipleCallback"></custom-multiple-input>
+
+        <h3>多选（数据格式简化 非json）</h3>
+        <multiple-select-simplify v-bind:optionsdata="multipleSimplify.originOptions" v-bind:selecteddata="multipleSimplify.selectedList" v-on:selected="multipleSimplifyCallback"></multiple-select-simplify>
+
+       
+      
+    </div>
+
+  
+
+<script type="text/javascript">
+
+var myController = new Vue({
+	el: '.myApp',
+	data: {
+		single: {
+            originOptions: [],
+            selected: {}
+        },
+        multiple: {
+            originOptions: [],
+            selectedList: []
+        },
+        customMultiple: {
+            selectedList: []
+        },
+        multipleSimplify: {
+            originOptions: [],
+            selectedList: []
+        }
+	},
+	ready: function() {
+		this.queryData();
+	},
+	methods: {
+		queryData: function(){
+            var mySelf = this
+            //do ajax here
+
+            // 单选
+            mySelf.single.originOptions = [{"id":"1","name":"lemon"},{"id":"2","name":"mike"},{"id":"3","name":"lara"},{"id":"4","name":"zoe"},{"id":"5","name":"steve"},{"id":"6","name":"nolan"}];
+            mySelf.single.selected = {"id":"6","name":"nolan"}
+
+            // 多选
+            mySelf.multiple.originOptions = [{"id":"1","name":"lemon"},{"id":"2","name":"mike"},{"id":"3","name":"lara"},{"id":"4","name":"zoe"},{"id":"5","name":"steve"},{"id":"6","name":"nolan"}];
+            mySelf.multiple.selectedList = [{"id":"1","name":"lemon"},{"id":"3","name":"lara"}]
+
+            // 自定义输入
+            mySelf.customMultiple.selectedList = ["lemon","mike","lara","lemon"];
+
+            // 多选（数据格式简化 非json）
+            mySelf.multipleSimplify.originOptions = ["lemon","mike","lara","steve","zoe","lion"];
+            mySelf.multipleSimplify.selectedList = ["lemon","lara"];
+
+
+            this.$nextTick(function(){
+
+            })
+		},
+        singleCallback: function(data){
+            this.single.selected = data;
+            // console.log('父级元素调用singleCallback 选中的是' + JSON.stringify(data))
+        },
+        multipleCallback: function(data){
+            this.multiple.selectedList = data;
+            console.log('父级元素调用multipleSelected 选中的是' + JSON.stringify(data))
+        },
+        customMultipleCallback: function(data){
+            this.customMultiple.selectedList = data;
+            // console.log('父级元素调用customMultipleInputed 选中的是' + JSON.stringify(data))
+
+        },
+        multipleSimplifyCallback: function(data){
+            this.multipleSimplify.selectedList = data;
+            // console.log('父级元素调用multipleSimplifySelected 选中的是' + JSON.stringify(data))
+
+        },
+
+
+      
+
+    }
+});
+
+
+</script>
+
+
+</body>
+</html>
